@@ -24,7 +24,7 @@ def generate_node(state: AgentState):
         logfire.info("Generating conversational response using memory.")
         prompt = f"""
         You are a friendly and helpful Enterprise AI Assistant.
-        Answer the user's latest message using the CONVERSATION HISTORY below.
+        Answer the user's latest message in natural language using the CONVERSATION HISTORY below.
 
         CONVERSATION HISTORY:
         {history}
@@ -38,15 +38,25 @@ def generate_node(state: AgentState):
         full_context = ""
 
         for doc in state["documents"]:
-            if len(full_context) + len(doc) < max_context_chars:
-                full_context += doc + "\n\n"
+            if len(full_context) + len(doc) <= max_context_chars:
+                #full_context += doc + "\n\n"
+                full_context += f"{doc}\n\n"
             else:
                 logfire.warning("Context truncated to fit Groq TPM limits.")
                 break
 
         prompt = f"""
         You are a Senior Technical Architect.
-        Answer the question using the TECHNICAL CONTEXT provided.
+        Answer the user's question ONLY using the TECHNICAL CONTEXT provided.
+
+        Guidelines:
+        - Write a clear, concise, and well-structured answer.
+        - Use the conversation history to understand follow-up questions.
+        - If the answer is not contained in the provided context, state that the information is not available.
+        - Do not mention document names, filenames, sources, citations, or that you were given context.
+        - Respond naturally, as if you already know the information.
+        - Base your answer only on the retrieved documentation provided.
+        
 
         TECHNICAL CONTEXT:
         {full_context}
@@ -71,5 +81,5 @@ def generate_node(state: AgentState):
             }
 
         except Exception as e:
-            logfire.error(f"LLM Generation failed: {e}")
+            logfire.error("❌ LLM Generation failed.")
             raise e

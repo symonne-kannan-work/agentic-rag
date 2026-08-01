@@ -1,5 +1,6 @@
 import os
 import uuid
+#import hashlib
 import sys
 import json
 import logfire
@@ -35,6 +36,12 @@ def save_processed_locally(data: dict, source_type: str, filename: str) -> str:
         json.dump(data, f, ensure_ascii=False, indent=2)
     return dest
 
+
+#######
+def generate_point_id(filename: str, chunk_index: int) -> str:
+    key = f"{filename}:{chunk_index}"
+    return str(uuid.uuid5(uuid.NAMESPACE_DNS, key))
+#######
 
 def process_file(file_path: str, filename: str, source_type: str):
     """Parse → chunk → save locally → embed → index in Qdrant."""
@@ -75,18 +82,30 @@ def process_file(file_path: str, filename: str, source_type: str):
 
             # 4. Embed and index in Qdrant
             with logfire.span("Vectorizing & Indexing"):
-                embeddings = embed_texts(chunks)
+
+
+                #embeddings = embed_texts(chunks)
+                #####
+                embedded_chunks = [
+                    f"Source: {filename} | Chunk {idx + 1}/{len(chunks)}\n\n{chunk}"
+                    for idx, chunk in enumerate(chunks)
+                ]
+                embeddings = embed_texts(embedded_chunks)
+                #########
+
+
                 points = [
                     models.PointStruct(
-                        id=str(uuid.uuid4()),
+                        id=generate_point_id(filename, idx),
                         vector=vector,
                         payload={
                             "text": chunk,
                             "source": filename,
                             "source_type": source_type,
+                            "chunk_index": idx,
                         },
                     )
-                    for chunk, vector in zip(chunks, embeddings)
+                    for idx, (chunk, vector) in enumerate(zip(chunks, embeddings))
                 ]
 
                 qdrant_client.upsert(
