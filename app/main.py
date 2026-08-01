@@ -11,20 +11,28 @@ logfire.configure(token=os.getenv("LOGFIRE_TOKEN"))
 # Now safe to import app modules - logfire is already active
 from fastapi import FastAPI, Response
 from app.agents.graph import rag_agent
+from app.guardrails import initialize_rails, guard
 
 from pydantic import BaseModel
 from typing import Optional
 
+from contextlib import asynccontextmanager
 
-# Initialize FastAPI
-app = FastAPI(title="Enterprise Multimodal Agentic RAG API")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    initialize_rails()
+    yield
 
+app = FastAPI(
+    title="Multimodal Agentic RAG API",
+    lifespan=lifespan,
+)
 
 class QueryRequest(BaseModel):
     q: str
     thread_id: Optional[str] = "default_user"
-
-
+    
+    
 @app.get("/")
 def home():
     return {"message": "Enterprise LangGraph RAG API is live."}
@@ -40,8 +48,8 @@ def get_graph_image():
         return Response(content=png_bytes, media_type="image/png")
     except Exception as e:
         return {"error": f"Could not generate graph image: {e}"}
-
-
+    
+    
 @app.post("/query")
 def query(request: QueryRequest):
     """
@@ -57,13 +65,27 @@ def query(request: QueryRequest):
         "plan": ["Start"],
         "status": "Initializing Graph..."
     }
-
+    
     # Configuration for Memory (Thread ID)
     config = {"configurable": {"thread_id": thread_id}}
-
+    
     try:
-        final_output = rag_agent.invoke(initial_state, config=config)
+        # Gate 1: NeMo Guardrails — blocks off-topic, jailbreaks, and handles dialog
+        rail_fired, rail_response = guard(q)
+        if rail_fired:
+            logfire.info(f"🛡️ Request blocked by guardrails | thread={thread_id}")
+            return {
+                "question": q,
+                "answer": rail_response,
+                "thought_process": ["Intent: Guardrails Fired", "Retrieval: Skipped"],
+                "status": "Blocked by guardrails.",
+                "sources": []
+            }
 
+        # Gate 2: LangGraph RAG pipeline
+        # Run the graph synchronously to preserve Logfire context variables
+        final_output = rag_agent.invoke(initial_state, config=config)
+        
         return {
             "question": q,
             "answer": final_output.get("final_answer"),
