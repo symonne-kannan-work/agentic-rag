@@ -137,3 +137,4 @@ data/interim/
 # .cursor-tutor/
 # .cursor-cache/
 # .cursor-history/
+requirements_installed.txt

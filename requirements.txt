@@ -30,7 +30,6 @@ langchain-openai            # OpenAI-compatible layer (used by Portkey gateway)
 pydantic>=2.0.0             # Data validation and settings management
 
 # --- DATA INGESTION & DOCUMENT PARSING ---
-unstructured                # Base library for DOCX/PPTX partitioning
 python-pptx                 # Parser for PowerPoint files
 python-docx                 # Parser for Word documents
 pypdf                       # Local PDF text extraction (replaces Document AI)
@@ -46,13 +45,9 @@ loguru                      # Enhanced logging for Python
 nemoguardrails              # NVIDIA NeMo Guardrails for input/output safety rails
 langchain-nvidia-ai-endpoints # LangChain integration with NVIDIA AI Endpoints
 
-# --- LLM GATEWAY ---
-portkey-ai                  # Portkey Gateway for unified LLM routing, fallbacks & observability
-
 # --- EVALUATION (EVALS) ---
 ragas                       # RAG-specific evaluation metrics (Faithfulness, Relevancy, Recall)
 deepeval                    # Pytest-compatible test runner wrapping RAGAS & safety metrics
-langfuse                    # Live production monitoring, tracing & user feedback collection
 
 # --- EMBEDDINGS (SENTENCE TRANSFORMERS) ---
 sentence-transformers       # Used by FlashRank reranker internally
