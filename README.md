@@ -25,23 +25,22 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 - [Key Features](#key-features)
 - [How It Works](#how-it-works)
 - [Project Structure](#project-structure)
 - [Tech Stack](#tech-stack)
 - [Prerequisites](#prerequisites)
-- [Getting Started](#getting-started)
 - [Environment Variables](#environment-variables)
-- [Usage](#usage)
+- [Getting Started & Usage](#getting-started--usage)
 - [API Endpoints](#api-endpoints)
 - [Evaluation](#evaluation)
 - [License](#license)
 
 ---
 
-## Key Features
+## ✨ Key Features
 
 | Feature | Description |
 |---------|-------------|
@@ -58,7 +57,7 @@
 
 ---
 
-## How It Works
+## ⚙️ How It Works
 
 ```mermaid
 flowchart TD
@@ -93,7 +92,7 @@ flowchart TD
 
 ---
 
-## Project Structure
+## 📦 Project Structure
 
 ```
 agentic_rag/
@@ -126,7 +125,7 @@ agentic_rag/
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -145,7 +144,7 @@ agentic_rag/
 
 ---
 
-## Prerequisites
+## 📋 Prerequisites
 
 Before you begin, make sure you have:
 
@@ -158,12 +157,28 @@ Before you begin, make sure you have:
 
 ---
 
-## Getting Started
+## 🔐 Environment Variables
+
+Copy `.env.example` to `.env` and set the following:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GROQ_API_KEY` | Yes | Groq API key for Llama 3.3 (planner + responder) |
+| `GEMINI_API_KEY` | Yes | Google Gemini key for embeddings |
+| `QDRANT_API_KEY` | Yes | Qdrant cluster API key |
+| `QDRANT_CLUSTER_ENDPOINT` | Yes | Qdrant cluster URL |
+| `LOGFIRE_TOKEN` | Recommended | Pydantic Logfire token for tracing |
+| `BACKEND_URL` | Optional | API URL for the UI (default: `http://localhost:8000`) |
+| `JUDGE_GROQ_API_KEY` | Optional | Separate Groq key for eval judge (avoids rate limits) |
+
+---
+
+## 🚀 Getting Started & Usage
 
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/<your-username>/agentic_rag.git
+git clone https://github.com/symonne-kannan-work/agentic-rag.git
 cd agentic_rag
 
 python -m venv .venv
@@ -183,82 +198,42 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Fill in your API keys in `.env` (see [Environment Variables](#environment-variables) below).
+Fill in your API keys in `.env` (see [Environment Variables](#environment-variables) above).
 
 ### 3. Ingest documents
 
-Place your files in `DATA/` and run:
+Place your files in `DATA/` and run one of:
 
 ```bash
-# Wipe existing collection and ingest everything under DATA/
+# Full re-ingest — wipes the Qdrant collection first
 python -m app.ingestion.processor DATA --wipe
 
-# Ingest a specific folder with an explicit source type
+# Append / update without wiping
+python -m app.ingestion.processor DATA
+
+# Target a specific folder with an explicit source type
 python -m app.ingestion.processor DATA/true_data true
 ```
 
 Supported formats: **PDF**, **HTML**, **TXT**, **DOCX**, **PPTX**.
 
-### 4. Start the backend
+### 4. Run the app
 
 ```bash
+# Terminal 1 — Backend API
 uvicorn app.main:app --reload --port 8000
-```
 
-### 5. Start the UI
-
-In a second terminal:
-
-```bash
+# Terminal 2 — Chat UI
 streamlit run ui/app.py
 ```
 
-Open the URL shown in the terminal (default: `http://localhost:8501`).
+Open the Streamlit URL shown in the terminal (default: `http://localhost:8501`).
 
----
+### 5. Query & explore
 
-## Environment Variables
+**Via the UI** — type your question in the chat box.
 
-Copy `.env.example` to `.env` and set the following:
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GROQ_API_KEY` | Yes | Groq API key for Llama 3.3 (planner + responder) |
-| `GEMINI_API_KEY` | Yes | Google Gemini key for embeddings |
-| `QDRANT_API_KEY` | Yes | Qdrant cluster API key |
-| `QDRANT_CLUSTER_ENDPOINT` | Yes | Qdrant cluster URL |
-| `LOGFIRE_TOKEN` | Recommended | Pydantic Logfire token for tracing |
-| `BACKEND_URL` | Optional | API URL for the UI (default: `http://localhost:8000`) |
-| `JUDGE_GROQ_API_KEY` | Optional | Separate Groq key for eval judge (avoids rate limits) |
-
----
-
-## Usage
-
-### Ingestion commands
-
-```bash
-# Full re-ingest with collection wipe
-python -m app.ingestion.processor DATA --wipe
-
-# Ingest without wiping (append / update)
-python -m app.ingestion.processor DATA
-
-# Target a single folder
-python -m app.ingestion.processor DATA/true_data true
-```
-
-### Run services
-
-```bash
-# Terminal 1: Backend API
-uvicorn app.main:app --reload --port 8000
-
-# Terminal 2: Chat UI
-streamlit run ui/app.py
-```
-
-### Query via API
+**Via the API:**
 
 ```bash
 curl -X POST http://localhost:8000/query \
@@ -266,13 +241,11 @@ curl -X POST http://localhost:8000/query \
   -d '{"q": "How does job autoscaling work?", "thread_id": "user-123"}'
 ```
 
-### View agent graph
-
-Open `http://localhost:8000/graph` in a browser to see the LangGraph workflow as a PNG.
+**Agent graph** — open `http://localhost:8000/graph` in a browser to view the LangGraph workflow as a PNG.
 
 ---
 
-## API Endpoints
+## 🔌 API Endpoints
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -293,7 +266,7 @@ Open `http://localhost:8000/graph` in a browser to see the LangGraph workflow as
 
 ---
 
-## Evaluation
+## 📊 Evaluation
 
 The `evals/` folder contains tools to measure RAG quality against a golden dataset:
 
@@ -303,7 +276,7 @@ Metrics include faithfulness, answer relevancy, and context recall (via RAGAS). 
 
 ---
 
-## License
+## 📜 License
 
 This project is licensed under the [MIT License](LICENSE).
 
