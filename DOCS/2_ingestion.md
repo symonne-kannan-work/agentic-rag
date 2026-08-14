@@ -150,7 +150,7 @@ app/ingestion/
 | System Overview | [1_architecture.md](./1_architecture.md) |
 | Agent nodes and routing | [3_agents.md](./3_agents.md) |
 | Embeddings, Qdrant, FlashRank | [4_retrieval.md](./4_retrieval.md) |
-| Guardrails and security | [5_security.md](./5_security.md) |
+| Guardrails and security | [5_security_guardrails.md](./5_security_guardrails.md) |
 
 ---
 
