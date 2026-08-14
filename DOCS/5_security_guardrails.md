@@ -301,5 +301,5 @@ For production deployments, consider adding authentication, rate limiting, and o
 
 ## Related Docs
 
-- [agents.md](./agents.md) — LangGraph pipeline that runs after security passes
+- [agents.md](./3_agents.md) — LangGraph pipeline that runs after security passes
 - [README.md](../README.md) — setup, environment variables, and usage
