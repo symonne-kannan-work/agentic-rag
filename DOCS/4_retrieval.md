@@ -287,10 +287,10 @@ app/
 
 | Topic | Doc |
 |-------|-----|
-| System Overview | [architecture.md](./1_architecture.md) |
-| Document ingestion | [ingestion.md](./2_ingestion.md) |
-| Agent nodes and routing | [agents.md](./3-agents.md) |
-| Guardrails and security | [security.md](./5_security.md) |
+| System Overview | [1_architecture.md](./1_architecture.md) |
+| Document ingestion | [2_ingestion.md](./2_ingestion.md) |
+| Agent nodes and routing | [3_agents.md](./3_agents.md) |
+| Guardrails and security | [5_security.md](./5_security.md) |
 
 ---
 

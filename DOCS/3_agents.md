@@ -290,7 +290,16 @@ When adding nodes, always return partial state updates and append to `plan` so t
 
 ---
 
+
 ## Related Docs
 
-- [retrieval.md](./retrieval.md) — embeddings, Qdrant search, FlashRank reranking
+| Topic | Doc |
+|-------|-----|
+| System Overview | [1_architecture.md](./1_architecture.md) |
+| Document ingestion | [2_ingestion.md](./2_ingestion.md) |
+| Embeddings, Qdrant, FlashRank | [4_retrieval.md](./4_retrieval.md) |
+| Guardrails and security | [5_security.md](./5_security.md) |
+
+---
+
 - [README.md](../README.md) — setup and usage

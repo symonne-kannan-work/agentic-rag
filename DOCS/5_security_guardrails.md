@@ -301,5 +301,13 @@ For production deployments, consider adding authentication, rate limiting, and o
 
 ## Related Docs
 
-- [agents.md](./3_agents.md) — LangGraph pipeline that runs after security passes
-- [README.md](../README.md) — setup, environment variables, and usage
+| Topic | Doc |
+|-------|-----|
+| System Overview | [1_architecture.md](./1_architecture.md) |
+| Document ingestion | [2_ingestion.md](./2_ingestion.md) |
+| Agent nodes and routing | [3_agents.md](./3_agents.md) |
+| Embeddings, Qdrant, FlashRank | [4_retrieval.md](./4_retrieval.md) |
+
+---
+
+- [README.md](../README.md) — setup and usage

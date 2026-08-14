@@ -77,10 +77,10 @@ Document indexing runs separately from live queries:
 
 | Topic | Doc |
 |-------|-----|
-| Agent nodes and routing | [agents.md](./agents.md) |
-| Document ingestion | [ingestion.md](./ingestion.md) |
-| Embeddings, Qdrant, FlashRank | [retrieval.md](./retrieval.md) |
-| Guardrails and security | [security.md](./security.md) |
+| Document ingestion | [2_ingestion.md](./2_ingestion.md) |
+| Agent nodes and routing | [3_agents.md](./3_agents.md) |
+| Embeddings, Qdrant, FlashRank | [4_retrieval.md](./4_retrieval.md) |
+| Guardrails and security | [5_security.md](./5_security.md) |
 
 ---
 

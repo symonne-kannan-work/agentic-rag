@@ -145,5 +145,13 @@ app/ingestion/
 
 ## Related Docs
 
-- [retrieval.md](./retrieval.md) — embeddings, Qdrant search, FlashRank reranking
-- [README.md](../README.md) — setup and environment variables
+| Topic | Doc |
+|-------|-----|
+| System Overview | [1_architecture.md](./1_architecture.md) |
+| Agent nodes and routing | [3_agents.md](./3_agents.md) |
+| Embeddings, Qdrant, FlashRank | [4_retrieval.md](./4_retrieval.md) |
+| Guardrails and security | [5_security.md](./5_security.md) |
+
+---
+
+- [README.md](../README.md) — setup and usage

@@ -117,6 +117,7 @@ agentic_rag/
 │   └── app.py                  # Streamlit chat frontend
 ├── evals/                      # RAG evaluation (RAGAS, golden dataset)
 ├── DATA/                       # Source documents for ingestion
+├── DOCS/                       # Architectural and operational reference documents
 ├── processed_data/             # Cached chunk metadata (JSON)
 ├── requirements.txt
 ├── .env.example
